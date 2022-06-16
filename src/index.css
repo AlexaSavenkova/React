@@ -19,3 +19,10 @@ h1 {
   -webkit-text-fill-color: transparent;
   color: #0B2349;
 }
+.small {
+  font-size: smaller;
+}
+ div, form {
+   text-align: left;
+   padding-left: 15px;
+ }
