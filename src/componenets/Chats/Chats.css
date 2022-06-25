@@ -1,0 +1,13 @@
+.chat{
+    margin: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items:center;
+
+}
+button {
+    line-height: 20px;
+}
+.add-chat-btn {
+    margin-left: 30px;
+}

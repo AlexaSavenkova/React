@@ -4,23 +4,22 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
 
-function Form ({ setMessageList }) {
+function Form ({ currentChat , setChats, chats}) {
 
     const [text, setText] = useState('');
     const [author, setAuthor] = useState('');
-    const [id, setId] = useState(1);
     const textRef = useRef();
 
     const handleNewMessage = (event) => {
         event.preventDefault();
-        setMessageList(prevState => [...prevState, {
-            id:id,
-            text,
-            author
-        }]);
+
+        const newChats =  {...chats,
+            [currentChat]: {...chats[currentChat],
+                messages: [...chats[currentChat].messages, {text, author}]} };
+
+        setChats(newChats);
         setAuthor('');
         setText('');
-        setId((prevId)=> prevId+1); // увеличиваем id для следующего сообщения
         textRef.current.focus();
     }
 
@@ -51,7 +50,6 @@ function Form ({ setMessageList }) {
                 value={author}
                 onChange={(event) => setAuthor(event.target.value)}
             />
-            {/*<input required type="author" id="author" value={author} onChange={(event) => setAuthor(event.target.value)}/>*/}
             &nbsp;
             <Button
                 type = "submit"

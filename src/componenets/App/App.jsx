@@ -1,36 +1,58 @@
-import './App.css';
 import {useState} from "react";
-import MessageList from '../Messages/MessageList';
-import Form from '../Form/Form';
+import {Route, Routes} from "react-router-dom";
+
 import Chats from "../Chats/Chats";
+import Layout from "../Layout/Layout";
+import Profile from "../Profile/Profile";
+import Home from "../Home/Home";
+import NotFound from "../NotFound/NotFound";
+
+import './App.css';
+
 
 function App() {
-    const [messageList , setMessageList] = useState([]);
-    const [chatList, setChatList] = useState([
-        {
-            id: 1,
-            name: 'First chat'
+    const [chats, setChats] = useState({
+        1 : {
+            name: 'First chat',
+            messages: [
+                {
+                    text: 'Test for chat 1',
+                    author: 'robot'
+                },
+                {
+                    text: 'One mor test for chat 1',
+                    author: 'robot'
+                },
+            ]
         },
-        {
-            id: 2,
-            name: 'Second chat'
-        }
-    ]);
+        2 : {
+            name: 'Second chat',
+            messages: [
+                {
+                    text: 'The one and only test for chat 2',
+                    author: 'robot'
+                },
+            ]
+        },
+    });
 
     return (
-        <div className="App">
-            <div className="chat-list">
-                <Chats chatList = {chatList}/>
-            </div>
-            <div className="messages">
-                <MessageList messageList = {messageList}/>
-                <br/>
-                <Form setMessageList = {setMessageList}/>
-            </div>
+        <Routes>
+            <Route path = {'/'} element = {<Layout />}>
+                <Route index path = {'/'} element = {<Home/>}/>
+                <Route path = {'/chats/:chatId'}
+                       element = {<Chats
+                           chats= {chats}
+                           setChats= {setChats}/>}
+                />
+                <Route path = {'/chats'} element = {<Chats chats = {chats} setChats = {setChats} />} />
+                <Route path = {'/profile'} element = {<Profile/>}/>
+                <Route path = {'*'} element = {<NotFound/>}/>
+            </Route>
 
-        </div>
+        </Routes>
+    )
 
-    );
 }
 
 export default App;
