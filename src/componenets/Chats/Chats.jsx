@@ -1,54 +1,66 @@
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-
-
 import MessageList from "../Messages/MessageList";
 import {NavLink, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+
+import {getChatList} from "../../redux/reducers/chatReducer/chatSelector";
+import {ADD_CHAT, DELETE_CHAT, ADD_NEW_CHAT_TO_MESSAGE_LIST, DELETE_ALL_MESSAGE_FROM_CHAT} from "../../redux/actionTypes";
 
 import "./Chats.css";
+import {useEffect} from "react";
 
-function Chats( {chats, setChats } ) {
+
+function Chats() {
     const {chatId} = useParams();
-    const chatExists = !!chats[chatId];
+    const chatList = useSelector(getChatList);
+    const dispatch = useDispatch();
+
+    const chatExists = chatList.find(chat => chat.id == chatId );
+
 
     const deleteChat = (id) => {
-        const removeId = ({[id]:_, ...rest}) => rest;
-        setChats(removeId(chats));
+        //TODO: delete all messages for chat
+        dispatch({
+            type: DELETE_CHAT,
+            payload: id
+        })
+        dispatch({
+            type: DELETE_ALL_MESSAGE_FROM_CHAT,
+            payload: id
+        })
     }
 
     const getNewChatId = () => {
-        const last = +Object.keys(chats)[Object.keys(chats).length-1];
-        return last + 1;
+        const last = chatList[chatList.length-1];
+        return last ? last.id + 1 : 1;
     }
 
     const addChat = () => {
-        const id = getNewChatId();
-        const name = prompt('chat name');
-        const newChat = {[id]: {name: name, messages: []} };
-        const newChats = {...chats, ...newChat};
-        setChats(newChats);
-        console.log(newChats);
+         const id = getNewChatId();
+         const name = prompt('chat name');
+        dispatch({
+            type: ADD_CHAT,
+            payload: {id, name}
+        })
+        dispatch({
+            type: ADD_NEW_CHAT_TO_MESSAGE_LIST,
+            payload: id,
+        })
     }
 
     return (
         <div className = "App">
             <div className = "chat-list">
-                {Object.keys(chats).map((id, index) => (
-                        <div key = {index} className="chat">
-                            <NavLink to = {`/chats/${id}`}>{chats[id].name}</NavLink>
-                            <button onClick={() => deleteChat(id)}>X</button>
+                {chatList.map((chat) => (
+                        <div key = {chat.id} className="chat">
+                            <NavLink to = {`/chats/${chat.id}`}>{chat.name}</NavLink>
+                            <button onClick={() => deleteChat(chat.id)}>X</button>
                         </div>
                 ))}
                 <button className="add-chat-btn" onClick={addChat}>Add chat</button>
             </div>
-
             {chatId && chatExists && (<>
                 <div className="messages">
-                <MessageList
-                    setChats = {setChats}
-                    chats = {chats}
-                    currentChat = {chatId}/>
+                <MessageList currentChat = {chatId}/>
             </div>
                 </>)}
 

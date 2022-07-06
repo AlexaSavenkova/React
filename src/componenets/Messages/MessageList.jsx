@@ -1,5 +1,7 @@
 import React, {useRef} from 'react';
 import {useEffect} from "react";
+import {useSelector} from "react-redux";
+import {getMessageList} from "../../redux/reducers/messagesReducer/messagesSelector";
 
 import Message from "./Message";
 import './Messages.css';
@@ -7,10 +9,12 @@ import './Messages.css';
 import Form from "./Form";
 import "./Form.css";
 
-function MessageList({ currentChat, setChats, chats}) {
+
+function MessageList({ currentChat}) {
 
     const messagesFieldRef = useRef();
-    const messageList = chats[currentChat].messages;
+    const messageList = useSelector(getMessageList)[currentChat];
+    const lastMessageId = messageList.length;
 
     useEffect(() => {
         setTimeout(()=>{
@@ -23,15 +27,12 @@ function MessageList({ currentChat, setChats, chats}) {
     return (
         <div className="messages">
             <div className = "message-list" ref = {messagesFieldRef}>
-                {/*{messageList.map((message, index) => (*/}
-                {/*   <Message key = {index} text = {message.text} author = {message.author} messageList = {messageList}/>*/}
-                {/*))}*/}
-                {messageList.map((message, index) => (
-                    <Message key = {index} text = {message.text} author = {message.author} messageList = {messageList}/>
+                {messageList.map((message) => (
+                    <Message key = {message.id} text = {message.text} author = {message.author} />
                 ))}
             </div>
             <br/>
-            <Form setChats = {setChats} currentChat = {currentChat} chats = {chats}/>
+            <Form currentChat = {currentChat}  lastMessageId = {lastMessageId}/>
         </div>
     )
 }

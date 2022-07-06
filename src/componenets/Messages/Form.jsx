@@ -3,21 +3,23 @@ import './Form.css'
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
+import {useDispatch, useSelector} from "react-redux";
+import {ADD_MESSAGE} from "../../redux/actionTypes";
 
-function Form ({ currentChat , setChats, chats}) {
+
+function Form ({ currentChat, lastMessageId }) {
 
     const [text, setText] = useState('');
     const [author, setAuthor] = useState('');
     const textRef = useRef();
+    const dispatch = useDispatch();
 
     const handleNewMessage = (event) => {
         event.preventDefault();
-
-        const newChats =  {...chats,
-            [currentChat]: {...chats[currentChat],
-                messages: [...chats[currentChat].messages, {text, author}]} };
-
-        setChats(newChats);
+        dispatch({
+            type: ADD_MESSAGE,
+            payload: {currentChat, id: lastMessageId + 1, text, author}
+        });
         setAuthor('');
         setText('');
         textRef.current.focus();

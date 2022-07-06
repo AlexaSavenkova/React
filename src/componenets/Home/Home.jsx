@@ -10,13 +10,6 @@ const Home = () => {
             <h3>
                 This is a home page
             </h3>
-            <h4>Счетчик</h4>
-
-            <button onClick={() => dispatch({type: 'minus'})}>-</button>
-                &nbsp;
-                {count}
-                &nbsp;
-            <button onClick={() => dispatch({type: 'plus'})}>+</button>
         </div>
     );
 };
