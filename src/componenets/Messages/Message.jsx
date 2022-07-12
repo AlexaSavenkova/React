@@ -1,7 +1,7 @@
 import Chip from '@mui/material/Chip';
 function Message({ text, author }) {
     return(
-        <div className="message">
+        <div className={ author==='robot' ? 'message-response' : 'message' }>
             <Chip
                 label={
                     <div>

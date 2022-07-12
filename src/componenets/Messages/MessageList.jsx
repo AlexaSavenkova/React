@@ -17,10 +17,6 @@ function MessageList({ currentChat}) {
     const lastMessageId = messageList.length;
 
     useEffect(() => {
-        setTimeout(()=>{
-            const lastMsg = messageList[messageList.length-1];
-            if (lastMsg && lastMsg.author) console.log('Message from author ', lastMsg.author, ' has been send');
-        }, 2000);
         messagesFieldRef.current.scrollTop = messagesFieldRef.current.scrollHeight;
     },[messageList]);
 

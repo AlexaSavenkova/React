@@ -17,3 +17,8 @@
 .message {
     margin: 15px;
 }
+
+.message-response {
+    margin: 15px;
+    margin-left: auto;
+}
