@@ -1,4 +1,10 @@
-import logger from 'redux-logger';
+import {createLogger} from 'redux-logger';
 import {messageMiddleware} from "./messageMiddleware";
+import thunk from 'redux-thunk';
 
-export default [ logger, messageMiddleware ];
+const logger = createLogger({
+    collapsed: true,
+    diff: true,
+});
+
+export const middlewares = [ thunk, logger, messageMiddleware ];

@@ -18,7 +18,6 @@ function Chats() {
 
 
     const deleteChat = (id) => {
-        //TODO: delete all messages for chat
         dispatch({
             type: DELETE_CHAT,
             payload: id

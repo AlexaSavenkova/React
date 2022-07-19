@@ -6,6 +6,7 @@ import Layout from "../Layout/Layout";
 import Profile from "../Profile/Profile";
 import Home from "../Home/Home";
 import NotFound from "../NotFound/NotFound";
+import Posts from "../Posts/Posts";
 
 import './App.css';
 
@@ -21,6 +22,7 @@ function App() {
                 />
                 <Route path = {'/chats'} element = {<Chats />} />
                 <Route path = {'/profile'} element = {<Profile/>}/>
+                <Route path = {'/posts'} element = {<Posts/>}/>
                 <Route path = {'*'} element = {<NotFound/>}/>
             </Route>
 
