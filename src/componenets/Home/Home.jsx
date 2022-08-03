@@ -8,7 +8,7 @@ const Home = () => {
     return (
         <div style={{padding: '15px'}}>
             <h3>
-                This is a home page
+                Welcome !
             </h3>
         </div>
     );
